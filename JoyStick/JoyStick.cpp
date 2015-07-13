@@ -35,7 +35,6 @@ LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 //
 // Global variables
 //
-
 BOOL bButtonStates[MAX_BUTTONS];
 LONG lAxisX;
 LONG lAxisY;
@@ -233,7 +232,6 @@ void DrawLevel(HDC hDC, int x, int y, LONG yVal)
 }
 
 
-
 void DrawDPad(HDC hDC, int x, int y, LONG value)
 {
 	LONG i;
@@ -328,16 +326,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	return RegisterClassEx(&wcex);
 }
 
-//
-//   FUNCTION: InitInstance(HINSTANCE, int)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
+
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    HWND hWnd;
@@ -358,16 +347,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
-//
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  PURPOSE:  Processes messages for the main window.
-//
-//  WM_COMMAND	- process the application menu
-//  WM_PAINT	- Paint the main window
-//  WM_DESTROY	- post a quit message and return
-//
-//
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
@@ -405,27 +385,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, &RawInput, &bufferSize, sizeof(RAWINPUTHEADER));
 		ParseRawInput(&RawInput);
 
-
 		// 시리얼통신을 주기적으로 보낸다.
 		static int oldT = 0;
 		int curT = GetTickCount();
 		if (curT - oldT > 300)
 		{
-			//char buff[5] = { 'S', (char)lAxisX, (char)lAxisY, (char)lAxisZ, (char)lAxisRz };
-			char buff[14] = {
-				//0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-				0x0, 0x0, 0x0, 0x0, 0x0,
-				//0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-				(char)lAxisX, (char)lAxisY, (char)lAxisZ, (char)lAxisRz,
-				//0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-				0x0, 0x0, 0x0, 0x0, 0x0,
-				//0xaa
-			};
-			//			for (int i = 5; i < 20; ++i)
-			//				buff[i] = NULL;
-
-			//g_Serial.SendData(buff, sizeof(buff));
-
+			char buff[5] = { 'S', (char)lAxisX, (char)lAxisY, (char)lAxisZ, (char)lAxisRz };
 			oldT = curT;
 		}
 		//
