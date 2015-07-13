@@ -1,2 +1,3 @@
 # LogitechExtreme3DPro
-LogitechExtreme3DPro Joystick Controller Test
+Logitech Extreme3DPro Joystick Controller Test
+
