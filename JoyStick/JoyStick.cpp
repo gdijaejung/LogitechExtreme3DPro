@@ -13,7 +13,6 @@
 #pragma comment(lib, "hid.lib")
 
 
-
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -218,6 +217,21 @@ void DrawCrosshair2(HDC hDC, int x, int y, LONG xVal, LONG yVal)
 	MoveToEx(hDC, x + scaleCrossX + 128, y + scaleCrossY - 5 + 128, NULL);
 	LineTo(hDC, x + scaleCrossX + 128, y + scaleCrossY + 5 + 128);
 }
+
+
+// yVal: -128 ~ +128
+void DrawLevel(HDC hDC, int x, int y, LONG yVal)
+{
+	const int crossY = yVal + 128;
+	const int scaleCrossY = crossY;
+
+	Rectangle(hDC, x, y, x + 60, y + 256);
+	MoveToEx(hDC, x, y + scaleCrossY, NULL);
+	LineTo(hDC, x+60, y + scaleCrossY);
+	MoveToEx(hDC, x + 30, y + scaleCrossY - 5, NULL);
+	LineTo(hDC, x + 30, y + scaleCrossY + 5);
+}
+
 
 
 void DrawDPad(HDC hDC, int x, int y, LONG value)
@@ -446,10 +460,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		for (int i = 0; i < g_NumberOfButtons; i++)
 			DrawButton(hDC, i + 1, 20 + i * 40, 20, bButtonStates[i]);
 
-		Rectangle(hDC, 10, 90, 10 + 552, 90 + 276);
+		Rectangle(hDC, 10, 90, 10 + 622, 90 + 276);
 		DrawCrosshair2(hDC, 20, 100, lAxisX, lAxisY);
 		DrawCrosshair(hDC, 296, 100, lAxisZ, lAxisRz);
-		DrawDPad(hDC, 600, 140, lHat);
+		DrawLevel(hDC, 560, 100, lAxisH);
+		DrawDPad(hDC, 650, 140, lHat);
 
 		EndPaint(hWnd, &ps);
 	}
